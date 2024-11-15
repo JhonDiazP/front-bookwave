@@ -1,0 +1,89 @@
+<div class="text-center mb-6">
+    <h1 class="text-3xl font-bold">Catálogo</h1>
+    <p class="text-gray-600">Descubre los mejores servicios a precios imperdibles</p>
+</div>
+
+<!-- Controles de búsqueda y filtros -->
+<div class="flex flex-wrap items-center justify-center gap-4 mb-4">
+    <!-- Barra de búsqueda -->
+    <input 
+        type="text" 
+        placeholder="Buscar productos..." 
+        [(ngModel)]="search"
+        (input)="onSearchChange()"
+        class="p-inputtext p-component w-64 px-3 py-2 rounded-lg border border-gray-300 focus:border-indigo-500 outline-none"/>
+
+    <!-- Filtro de categoría (puedes agregar más filtros según sea necesario) -->
+    <!-- <p-dropdown 
+        [options]="categories" 
+        [(ngModel)]="selectedCategory" 
+        optionLabel="name" 
+        placeholder="Filtrar por categoría"
+        class="w-56">
+    </p-dropdown> -->
+</div>
+
+<!-- Sección de productos -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto max-w-screen-lg place-content-center">
+    <div 
+        *ngFor="let item of services" 
+        class="p-card flex flex-col h-full hover:shadow-lg transition-all border rounded-lg overflow-hidden"
+        style="min-height: 20rem;"
+        [routerLink]="['/pages/products/view/', item.id]">
+        
+        <img [src]="storageUrl+item.image_services?.[0]?.path" alt="{{ item.name }}" class="h-56 w-80 object-cover">
+
+        <div class="p-4 flex-grow flex flex-col justify-between">
+            <span class="text-lg font-semibold line-clamp-2">{{ item.name }}</span>
+            
+            <div class="mt-1 flex justify-end">
+                <span class="text-indigo-600 font-bold text-lg">{{ item.price }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<nav *ngIf="totalPages > 1" class="my-4">
+    <ul class="pagination flex flex-wrap justify-center space-x-2">
+
+        <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link rounded-lg px-4 py-2 border border-gray-300 shadow-md transition duration-300"
+                [attr.aria-label]="'Primera página'" [ngClass]="{
+                     'bg-[#673ab7] text-white hover:bg-[#5c2c8e]': currentPage !== 1,
+                     'bg-gray-200 text-gray-500 cursor-not-allowed': currentPage === 1
+                   }" (click)="currentPage !== 1 && onPageChange(1)">Primera</a>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link rounded-lg px-4 py-2 border border-gray-300 shadow-md transition duration-300"
+                [attr.aria-label]="'Página anterior'" [ngClass]="{
+                     'bg-[#673ab7] text-white hover:bg-[#5c2c8e]': currentPage > 1,
+                     'bg-gray-200 text-gray-500 cursor-not-allowed': currentPage === 1
+                   }" (click)="currentPage > 1 && onPageChange(currentPage - 1)">Anterior</a>
+        </li>
+
+        <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page">
+            <a class="page-link rounded-lg px-4 py-2 border border-white-300 shadow-sm transition duration-300"
+                [attr.aria-label]="'Ir a página ' + page" [ngClass]="{
+                     'bg-[#673ab7] text-white hover:bg-[#5c2c8e]': currentPage !== page,
+                     'bg-[#5c2c8e] text-slate-200': currentPage === page
+                   }" (click)="currentPage !== page && onPageChange(page)">{{ page }}</a>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link rounded-lg px-4 py-2 border border-gray-300 shadow-md transition duration-300"
+                [attr.aria-label]="'Página siguiente'" [ngClass]="{
+                     'bg-[#673ab7] text-white hover:bg-[#5c2c8e]': currentPage < totalPages,
+                     'bg-gray-200 text-white-500 cursor-not-allowed': currentPage === totalPages
+                   }" (click)="currentPage < totalPages && onPageChange(currentPage + 1)">Siguiente</a>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link rounded-lg px-4 py-2 border border-gray-300 shadow-md transition duration-300"
+                [attr.aria-label]="'Última página'" [ngClass]="{
+                     'bg-[#673ab7] text-white hover:bg-[#5c2c8e]': currentPage !== totalPages,
+                     'bg-gray-200 text-gray-500 cursor-not-allowed': currentPage === totalPages
+                   }" (click)="currentPage !== totalPages && onPageChange(totalPages)">Última</a>
+        </li>
+    </ul>
+</nav>
+

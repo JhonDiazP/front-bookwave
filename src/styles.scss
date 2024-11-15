@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Code Highlight */
+@import "../node_modules/prismjs/themes/prism-coy.css";
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+
+/* Define las capas para Tailwind y PrimeNG */
+@layer tailwind-base, primeng, tailwind-utilities;
+
+/* Importar las capas base de Tailwind */
+@layer tailwind-base {
+    @import 'tailwindcss/base';
+}
+
+/* Importar los componentes de Tailwind */
+@layer tailwind-utilities {
+    @import 'tailwindcss/components';
+    @import 'tailwindcss/utilities';
+}
+
+.grid-tw {
+    display: grid;
+}
+
+.p-password {
+    width: 100%;
+}
+
+.p-password input {
+    width: 100%;
+}
+
+.p-menubar .p-menubar-button {
+    color: #fff;
+}
+
+.layout-topbar .layout-menu-button {
+    color: #fff;
+}

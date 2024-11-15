@@ -1,0 +1,37 @@
+<div class="text-center mb-6">
+    <h1 class="text-3xl font-bold">Seleccione la categoría en la cual desea crear</h1>
+  </div>
+  
+  <!-- Contenedor de categorías estilo grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-lg">
+    <!-- Iterar sobre las categorías -->
+    <div
+      *ngFor="let category of categories"
+      class="relative cursor-pointer p-4 border rounded-lg hover:shadow-lg transition-all flex flex-col items-center"
+    >
+      <!-- Contenedor de la imagen con texto -->
+      <div class="relative w-full h-40">
+        <!-- Imagen de la categoría -->
+        <img
+          [src]="category.image"
+          alt="{{ category.name }}"
+          class="w-full h-full object-cover rounded-lg"
+        />
+        <!-- Nombre de la categoría, posicionado en la parte inferior de la imagen -->
+        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2 rounded-b-lg flex items-center justify-center">
+          <span class="text-lg font-semibold text-white">{{ category.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Botón de Continuar -->
+  <div class="mt-6 flex justify-center">
+    <button
+      pButton
+      label="Continuar"
+      class="p-button p-component bg-indigo-600 text-white rounded-lg px-6 py-3 hover:bg-indigo-700 transition"
+    ></button>
+  </div>
+  
+  

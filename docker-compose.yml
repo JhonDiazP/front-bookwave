@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+
+  front-servimark:
+    container_name: front-servimark
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '4201:4200'
