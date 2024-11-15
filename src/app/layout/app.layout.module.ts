@@ -20,17 +20,18 @@ import { AppLayoutComponent } from "./app.layout.component";
 import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { AppTopBarPublicComponent } from './app.topbar.public.component';
-import { DropdownModule } from 'primeng/dropdown';
+
 
 @NgModule({
     declarations: [
         AppMenuitemComponent,
         AppTopBarComponent,
+        AppTopBarPublicComponent,
         AppFooterComponent,
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
-        AppTopBarPublicComponent,
+        AppTopBarPublicComponent
     ],
     imports: [
         BrowserModule,
@@ -46,8 +47,7 @@ import { DropdownModule } from 'primeng/dropdown';
         RouterModule,
         AppConfigModule,
         MenuModule,
-        MenubarModule,
-        DropdownModule
+        MenubarModule
     ],
     exports: [AppLayoutComponent]
 })

@@ -12,21 +12,11 @@ import { reduce } from 'rxjs';
 })
 export class AppTopBarComponent implements OnInit {
 
-    cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
-
     items!: MenuItem[];
 
     tieredItems!: MenuItem[];
 
     roles: Role[] = [];
-
-    login: boolean = false;
 
     @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -42,12 +32,10 @@ export class AppTopBarComponent implements OnInit {
 
     ngOnInit() {
         
-        this.login = this.authService.isLoggedIn;
-        
         this.tieredItems = [
             {
-                label: '',
-                icon: 'pi pi-user text-white',
+                label: 'Usuario',
+                icon: 'pi pi-user',
                 items: [
                     {
                         label: 'Cerrar sesión',

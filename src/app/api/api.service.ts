@@ -90,9 +90,10 @@ export class ApiService {
 
     async Login(serviceObject: ServiceObject): Promise<ServiceObject> {
         try {
+          this.endPoint = environment.apiWeb;
             const response: any = await firstValueFrom(
                 this.httpClient.post<any>( // Cambia el tipo a `any` para capturar la estructura real de la respuesta
-                    `${this.endPoint}${serviceObject.entity}?email=${serviceObject.data.email}&password=${serviceObject.data.password}`,
+                    `${this.endPoint}${serviceObject.entity}`,
                     serviceObject.data
                 )
             );
@@ -100,10 +101,8 @@ export class ApiService {
             // Aquí debes asignar manualmente la data que recibes a tu objeto de servicio
             const servObj = new ServiceObject();
             servObj.data = {
-                access_token: response.access_token,
-                user_id: response.user_id,
-                token_type: response.token_type,
-                expires_in: response.expires_in
+                access_token: response.token,
+                user_id: response.user.id
             };
 
             return servObj;

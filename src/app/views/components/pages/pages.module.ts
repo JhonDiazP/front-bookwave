@@ -4,7 +4,6 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { UsersModule } from './users/users.module';
 import { SharedModule } from '../common/shared.module';
 import { PaginatorModule } from 'primeng/paginator';
-import { ProductsModule } from './products/products.module';
 
 
 @NgModule({
@@ -14,7 +13,6 @@ import { ProductsModule } from './products/products.module';
         PagesRoutingModule,
         SharedModule,
         UsersModule,
-        ProductsModule,
         PaginatorModule
     ],
     exports: []

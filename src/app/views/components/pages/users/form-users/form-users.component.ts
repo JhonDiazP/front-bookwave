@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { MenuItem, Message, MessageService } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { ContractTypesService } from 'src/app/business-controller/contract-types.service';
 import { DocumentTypeService } from 'src/app/business-controller/document-type.service';
@@ -20,7 +19,6 @@ import { Role } from 'src/app/models/role';
 import { Country } from 'src/app/models/territories/country';
 import { Municipality } from 'src/app/models/territories/municipality';
 import { Region } from 'src/app/models/territories/region';
-import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-form-users',
@@ -40,17 +38,6 @@ export class FormUsersComponent {
   public regions!: Region[];
   public municipalities!: Municipality[];
   public msgs: Message[] = [];
-  public userId: string = this.route.snapshot.params['id'];
-  public items: MenuItem[] = [
-    {
-      icon: 'pi pi-home',
-      route: '../../list-user'
-    },
-    {
-      label: 'Crear Usuario',
-      route: '../../form-user/'
-    }
-  ];
 
   constructor(
     private fb: FormBuilder,
@@ -59,25 +46,34 @@ export class FormUsersComponent {
     private genderService: GenderService,
     private userService: UserService,
     private messageService: MessageService,
-    private rolesService: UserRoleService,
-    private route: ActivatedRoute
+    private projectService: ProjectService,
+    private positionService: PositionService,
+    private contractTypeService: ContractTypesService,
+    private rolesService: UserRoleService
   ) {
     this.userForm = this.fb.group({
-      identification_type_id: ['', Validators.required],
-      identification: ['', [Validators.required]],
-      first_name: ['', Validators.required],
-      middle_last_name: [''],
-      last_name: ['', Validators.required],
-      middle_first_name: [''],
+      document_type_id: ['', Validators.required],
+      document: ['', [Validators.required]],
+      firstname: ['', Validators.required],
+      middlelastname: [''],
+      lastname: ['', Validators.required],
+      middlefirstname: [''],
       country: ['', Validators.required],
       region: ['', Validators.required],
       municipality_id: ['', Validators.required],
       gender_id: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern('[0-9]+')]],
       email: ['', [Validators.required, Validators.email]],
-      password: [''],
-      passwordConfirmed: [''],
-      roles: [[], [Validators.required]],
+      project_id: ['', []],
+      position_id: ['', []],
+      password: ['', [Validators.required, this.passwordValidator()]],
+      passwordConfirmed: ['', [Validators.required,]],
+      contract_type_id: ['', []],
+      contract_no: ['', []],
+      salary: ['', []],
+      start_date: ['', []],
+      date_finish: [''],
+      roles: ['', [Validators.required]],
       status: [true]
     },
     {
@@ -86,29 +82,13 @@ export class FormUsersComponent {
   }
 
   ngOnInit(): void {
-    if(this.userId){
-      this.getUserById();
-      this.items = [
-        {
-          icon: 'pi pi-home',
-          route: '../../list-user'
-        },
-        {
-          label: 'Editar Usuario',
-          route: '../../form-user/'+this.userId
-        }
-      ]
-    }else {
-      this.userForm.controls['password'].setValidators([Validators.required, this.passwordValidator()]);
-      this.userForm.controls['passwordConfirmed'].setValidators([Validators.required]);
-
-      this.userForm.controls['password'].updateValueAndValidity();
-      this.userForm.controls['passwordConfirmed'].updateValueAndValidity();
-    }
     this.getRoles();
     this.getCountries();
     this.getDocumentTypes();
     this.getGenders();
+    this.getProjects();
+    this.getPosition();
+    this.getContractTypes();
   }
 
   getDocumentTypes() {
@@ -127,6 +107,30 @@ export class FormUsersComponent {
     })
   }
 
+  getProjects(){
+    this.projectService.getProjects().then(projects => {
+      this.projects = projects;
+    }).catch(x => {
+
+    })
+  }
+
+  getPosition(){
+    this.positionService.getPositions().then(positions => {
+      this.positions = positions;
+    }).catch(x => {
+
+    })
+  }
+
+  getContractTypes(){
+    this.contractTypeService.getContractTypes().then(contractTypes => {
+      this.contractTypes = contractTypes;
+    }).catch(x => {
+
+    })
+  }
+
   getCountries(){
     this.territoriesService.getCountry().then(countries => {
       this.countries = countries;
@@ -136,15 +140,10 @@ export class FormUsersComponent {
   }
 
   getRegionsByCountry(event: DropdownChangeEvent){
-    console.log(event.value);
     this.territoriesService.getRegion({country_id: event.value}).then(regions => {
       this.regions = regions;
     }).catch(x => {
 
-    }).finally(() => {
-      // if(this.userId){
-      //   this.userForm.controls['region'].setValue(this.regions[0].id);
-      // }
     })
   }
 
@@ -155,7 +154,6 @@ export class FormUsersComponent {
 
     })
   }
-
   getRoles(){
     this.rolesService.getRoles().then(roles => {
       console.log(roles);
@@ -166,35 +164,20 @@ export class FormUsersComponent {
   }
 
   submitForm() {
+    console.log(this.userForm.value);
     if (this.userForm.valid) {
-      const user: User = this.userForm.value;
-      if(this.userId){
-        user.id = this.userId;
-        this.userService.Update(user).then(response => {
-          this.messageService.add({ key: 'tst', severity: 'success', summary: "Usuario actualizado", detail: response.message });
-        }).catch(error => {
-          let errorMessage = 'Ocurrió un error inesperado';
-          if (error.error?.errors) {
-            errorMessage = Object.keys(error.error.errors).map(key => error.error.errors[key].join(' ')).join(' ');
-          } else if (error.error?.message) {
-            errorMessage = error.error.message;
-          }
-          this.messageService.add({ key: 'tst', severity: 'error', summary: "Error", detail: errorMessage });
-        })
-      } else {
-        this.userService.Save(user).then(response => {
-          this.messageService.add({ key: 'tst', severity: 'success', summary: "Usuario creado", detail: response.message });
-          this.refreshData();
-        }).catch(error => {
-          let errorMessage = 'Ocurrió un error inesperado';
-          if (error.error?.errors) {
-            errorMessage = Object.keys(error.error.errors).map(key => error.error.errors[key].join(' ')).join(' ');
-          } else if (error.error?.message) {
-            errorMessage = error.error.message;
-          }
-          this.messageService.add({ key: 'tst', severity: 'error', summary: "Error", detail: errorMessage });
-        })
-      }
+      this.userService.Save(this.userForm.value).then(response => {
+        this.messageService.add({ key: 'tst', severity: 'success', summary: "Usuario creado", detail: response.message });
+        this.refreshData();
+      }).catch(error => {
+        let errorMessage = 'Ocurrió un error inesperado';
+        if (error.error?.errors) {
+          errorMessage = Object.keys(error.error.errors).map(key => error.error.errors[key].join(' ')).join(' ');
+        } else if (error.error?.message) {
+          errorMessage = error.error.message;
+        }
+        this.messageService.add({ key: 'tst', severity: 'error', summary: "Error", detail: errorMessage });
+      })
     } else {
       this.messageService.add({ key: 'tst', severity: 'warn', summary: "Atención", detail: "Complete los campos requeridos" });
     }
@@ -250,20 +233,28 @@ export class FormUsersComponent {
     this.userForm.controls['status'].setValue(true);
   }
 
-  async getUserById(){
-    this.userService.gerUserById(this.userId).then(user => {
-      this.userForm.patchValue(user);
-      const roles: number[] = [];
-      user.roles?.forEach(role => {
-        roles.push(role.id);
-      });
-      this.userForm.controls['roles'].setValue(roles);
-      this.userForm.controls['country'].setValue(user.municipality?.departament?.country_id);
-      this.getRegionsByCountry({ originalEvent: new Event('change'), value: user.municipality?.departament?.country_id });
-      this.userForm.controls['region'].setValue(user.municipality?.departament_id);
-      this.getMunicipalitiesByRegion({ originalEvent: new Event('change'), value: user.municipality?.departament_id });
-      this.userForm.controls['municipality_id'].setValue(user.municipality_id);
-    });
+  onSelectAllChange(event: any) {
+    if(event.value.includes(2)){
+      console.log("entra");
+      this.userForm.controls['project_id'].setValidators([Validators.required]);
+      this.userForm.controls['position_id'].setValidators([Validators.required]);
+      this.userForm.controls['contract_type_id'].setValidators([Validators.required]);
+      this.userForm.controls['contract_no'].setValidators([Validators.required]);
+      this.userForm.controls['salary'].setValidators([Validators.required]);
+      this.userForm.controls['start_date'].setValidators([Validators.required]);
+    } else {
+      this.userForm.controls['project_id'].clearValidators();
+      this.userForm.controls['position_id'].clearValidators();
+      this.userForm.controls['contract_type_id'].clearValidators();
+      this.userForm.controls['contract_no'].clearValidators();
+      this.userForm.controls['salary'].clearValidators();
+      this.userForm.controls['start_date'].clearValidators();
+    }
+    this.userForm.controls['project_id'].updateValueAndValidity();
+    this.userForm.controls['position_id'].updateValueAndValidity();
+    this.userForm.controls['contract_type_id'].updateValueAndValidity();
+    this.userForm.controls['contract_no'].updateValueAndValidity();
+    this.userForm.controls['salary'].updateValueAndValidity();
+    this.userForm.controls['start_date'].updateValueAndValidity();
   }
-
 }

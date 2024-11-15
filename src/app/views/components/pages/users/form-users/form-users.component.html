@@ -1,13 +1,11 @@
 <div class="container mx-auto p-4">
     <div class="card bg-white shadow-md rounded-lg overflow-hidden">
-        <app-breadcrumb [items]="items"></app-breadcrumb>
-        <h2 *ngIf="!userId" class="font-semibold mb-4 text-center">Registro de Usuario</h2>
-        <h2 *ngIf="userId" class="font-semibold mb-4 text-center">Editar Usuario</h2>
+        <h2 class="font-semibold mb-4 text-center">Registro de Usuario</h2>
         <form [formGroup]="userForm" (ngSubmit)="submitForm()">
             <h4><strong>Permisos</strong></h4>
             <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                 <div>
-                    <label for="identification_type_id" class="block mb-2">Roles:<span
+                    <label for="document_type_id" class="block mb-2">Roles:<span
                             class="text-red-500">*</span></label>
                         <p-multiSelect
                             [filter]="false"
@@ -17,7 +15,8 @@
                             placeholder="Seleccione los roles"
                             optionValue="id" 
                             optionLabel="name"
-                            styleClass="w-full"/>
+                            styleClass="w-full"
+                            (onChange)="onSelectAllChange($event)"/>
                     <div class="ml-2">
                         <div *ngIf="userForm.get('roles')?.errors">
                             <small class="text-red-500">
@@ -30,12 +29,12 @@
             <h4><strong>Datos personales</strong></h4>
             <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                 <div>
-                    <label for="identification_type_id" class="block mb-2">Tipo de Documento:<span
+                    <label for="document_type_id" class="block mb-2">Tipo de Documento:<span
                             class="text-red-500">*</span></label>
-                    <p-dropdown styleClass="w-full" [options]="documentTypes" formControlName="identification_type_id"
+                    <p-dropdown styleClass="w-full" [options]="documentTypes" formControlName="document_type_id"
                         optionValue="id" optionLabel="name" placeholder="Seleccione un tipo de documento"></p-dropdown>
                     <div class="ml-2">
-                        <div *ngIf="userForm.get('identification_type_id')?.errors">
+                        <div *ngIf="userForm.get('document_type_id')?.errors">
                             <small class="text-red-500">
                                 El campo es requerido
                             </small>
@@ -43,11 +42,11 @@
                     </div>
                 </div>
                 <div>
-                    <label for="identification" class="block mb-2">Documento:<span class="text-red-500">*</span></label>
-                    <input class="w-full" pInputText id="identification" formControlName="identification"
+                    <label for="document" class="block mb-2">Documento:<span class="text-red-500">*</span></label>
+                    <input class="w-full" pInputText id="document" formControlName="document"
                         placeholder="Número de Documento" />
                     <div class="ml-2">
-                        <div *ngIf="userForm.get('identification')?.errors">
+                        <div *ngIf="userForm.get('document')?.errors">
                             <small class="text-red-500">
                                 El campo es requerido
                             </small>
@@ -59,11 +58,11 @@
             <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Primer Nombre -->
                 <div class="p-field mb-4">
-                    <label for="first_name" class="block mb-2">Primer Nombre:<span class="text-red-500">*</span></label>
-                    <input pInputText id="first_name" formControlName="first_name" placeholder="Primer Nombre"
+                    <label for="firstname" class="block mb-2">Primer Nombre:<span class="text-red-500">*</span></label>
+                    <input pInputText id="firstName" formControlName="firstname" placeholder="Primer Nombre"
                         class="w-full" />
                     <div class="ml-2">
-                        <div *ngIf="userForm.get('first_name')?.errors">
+                        <div *ngIf="userForm.get('firstname')?.errors">
                             <small class="text-red-500">
                                 El campo es requerido
                             </small>
@@ -73,8 +72,8 @@
 
                 <!-- Segundo Nombre -->
                 <div class="p-field mb-4">
-                    <label for="middle_first_name" class="block mb-2">Segundo Nombre:</label>
-                    <input pInputText id="secondName" formControlName="middle_first_name" placeholder="Segundo Nombre"
+                    <label for="middlefirstname" class="block mb-2">Segundo Nombre:</label>
+                    <input pInputText id="secondName" formControlName="middlefirstname" placeholder="Segundo Nombre"
                         class="w-full" />
                 </div>
             </div>
@@ -82,11 +81,11 @@
             <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Primer Apellido -->
                 <div class="p-field mb-4">
-                    <label for="last_name" class="block mb-2">Primer Apellido:<span class="text-red-500">*</span></label>
-                    <input pInputText id="last_name" formControlName="last_name" placeholder="Primer Apellido"
+                    <label for="lastname" class="block mb-2">Primer Apellido:<span class="text-red-500">*</span></label>
+                    <input pInputText id="lastName" formControlName="lastname" placeholder="Primer Apellido"
                         class="w-full" />
                     <div class="ml-2">
-                        <div *ngIf="userForm.get('last_name')?.errors">
+                        <div *ngIf="userForm.get('lastname')?.errors">
                             <small class="text-red-500">
                                 El campo es requerido
                             </small>
@@ -96,8 +95,8 @@
 
                 <!-- Segundo Apellido -->
                 <div class="p-field mb-4">
-                    <label for="middle_last_name" class="block mb-2">Segundo Apellido:</label>
-                    <input pInputText id="secondlast_name" formControlName="middle_last_name"
+                    <label for="middlelastname" class="block mb-2">Segundo Apellido:</label>
+                    <input pInputText id="secondLastName" formControlName="middlelastname"
                         placeholder="Segundo Apellido" class="w-full" />
                 </div>
             </div>
@@ -193,7 +192,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="!userId" class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Contraseña -->
                 <div class="p-field mb-4">
                     <label for="password" class="block mb-2">Contraseña:<span class="text-red-500">*</span></label>
@@ -246,12 +245,114 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="userForm.get('roles')?.value.includes(2)">
+                <hr>
+                <h4><strong>Datos de contrato</strong></h4>
+                <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Proyecto -->
+                    <div class="p-field mb-4">
+                        <label for="project_id" class="block mb-2">Proyecto:<span class="text-red-500">*</span></label>
+                        <p-dropdown [options]="projects" formControlName="project_id" optionValue="id" optionLabel="name"
+                            styleClass="w-full" placeholder="Seleccione un proyecto"></p-dropdown>
+                        <div class="ml-2">
+                            <div *ngIf="userForm.get('project_id')?.errors">
+                                <small class="text-red-500">
+                                    El campo es requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Cargo -->
+                    <div class="p-field mb-4">
+                        <label for="position_id" class="block mb-2">Cargo:<span class="text-red-500">*</span></label>
+                        <p-dropdown [options]="positions" formControlName="position_id" optionValue="id" optionLabel="name"
+                            styleClass="w-full" placeholder="Seleccione un cargo"></p-dropdown>
+                        <div class="ml-2">
+                            <div *ngIf="userForm.get('position_id')?.errors">
+                                <small class="text-red-500">
+                                    El campo es requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Tipo de contrato -->
+                    <div class="p-field mb-4">
+                        <label for="contract_type_id" class="block mb-2">Tipo de contrato:<span
+                                class="text-red-500">*</span></label>
+                        <p-dropdown [options]="contractTypes" formControlName="contract_type_id" optionValue="id"
+                            optionLabel="name" styleClass="w-full" placeholder="Seleccione un proyecto"></p-dropdown>
+                        <div class="ml-2">
+                            <div *ngIf="userForm.get('contract_type_id')?.errors">
+                                <small class="text-red-500">
+                                    El campo es requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Número de contrato -->
+                    <div class="p-field mb-4">
+                        <label for="contract_no" class="block mb-2">Número de contrato:<span
+                                class="text-red-500">*</span></label>
+                        <p-inputNumber formControlName="contract_no" inputId="withoutgrouping" [useGrouping]="false"
+                            class="w-full p-fluid" placeholder="Número de contrato" />
+                        <div class="ml-2">
+                            <div *ngIf="userForm.get('contract_no')?.errors">
+                                <small class="text-red-500">
+                                    El campo es requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="grid-tw sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Salario -->
+                    <div class="p-field mb-4 sm:col-span-2 md:col-span-2">
+                        <label for="salary" class="block mb-2">Salario:<span class="text-red-500">*</span></label>
+                        <p-inputNumber formControlName="salary" inputId="integeronly" class="w-full p-fluid"
+                            placeholder="Salario" />
+                        <div class="ml-2">
+                            <div *ngIf="userForm.get('salary')?.errors">
+                                <small class="text-red-500">
+                                    El campo es requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Fecha de inicio -->
+                    <div class="p-field mb-4">
+                        <label for="start_date" class="block mb-2">Fecha inicio de contrato:<span
+                                class="text-red-500">*</span></label>
+                        <p-calendar formControlName="start_date" styleClass="w-full"
+                            placeholder="Seleccione una fecha"></p-calendar>
+                        <div class="ml-2">
+                            <div *ngIf="userForm.get('start_date')?.errors">
+                                <small class="text-red-500">
+                                    El campo es requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Fecha de fin -->
+                    <div class="p-field mb-4">
+                        <label for="date_finish" class="block mb-2">Fecha fin de contrato:</label>
+                        <p-calendar formControlName="date_finish" styleClass="w-full"
+                            placeholder="Seleccione una fecha"></p-calendar>
+                    </div>
+                </div>
+            </div>
 
             <!-- Botón de Enviar -->
             <div class="p-field mb-4 text-center">
                 <p-toast key="tst" [baseZIndex]="99999"></p-toast>
-                <p-button *ngIf="!userId" icon="pi pi-check" type="submit" label="Registrar"></p-button>
-                <p-button *ngIf="userId" icon="pi pi-check" type="submit" label="Actualizar"></p-button>
+                <p-button icon="pi pi-check" type="submit" label="Registrar"></p-button>
             </div>
         </form>
     </div>

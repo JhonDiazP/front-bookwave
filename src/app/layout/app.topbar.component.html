@@ -16,22 +16,12 @@
         <a href="#" class="text-white hover:text-gray-200">Ofertas</a>
         <a href="#" class="text-white hover:text-gray-200 ml-12">Vender</a>
     </div>
-
-    <!-- Barra de búsqueda (Opcional) -->
-    <!-- <div class="hidden lg:flex items-center rounded-md bg-white px-2 py-2 text-gray-600 mr-8 flex-1 max-w-lg">
-        <select class="bg-transparent border-none outline-none">
-            <option>Todas las categorías</option>
-        </select>
-        <input type="text" placeholder="Buscar..." class="flex-1 bg-transparent outline-none px-4">
-        <i class="pi pi-search"></i>
-    </div> -->
-
     <!-- Menú al final con <p-menubar> -->
-    <div *ngIf="login" class="flex items-center">
+    <div class="flex items-center">
         <p-menubar [model]="tieredItems">
             <ng-template pTemplate="end">
-                <span class="p-input-icon-right text-white">
-                    Usuario
+                <span class="p-input-icon-right">
+                    <!-- Aquí podrías agregar un ícono o botón adicional si es necesario -->
                 </span>
             </ng-template>
         </p-menubar>

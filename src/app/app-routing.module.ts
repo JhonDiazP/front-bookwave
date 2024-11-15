@@ -21,7 +21,7 @@ export const routes: Routes = [
     },
     {
         path: 'public',
-        component: AppLayoutComponent,
+        component: AppTopBarPublicComponent,
         children: [
             {
                 path: 'users', loadChildren: () => import('./views/public/users/users.module').then(m => m.UsersModule)

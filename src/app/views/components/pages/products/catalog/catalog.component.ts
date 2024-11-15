@@ -1,70 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ServicesBusiness } from 'src/app/business-controller/services.service';
-import { Service } from 'src/app/models/service';
-import { environment } from 'src/environments/environment';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent {
+  catalogItems = [
+    { title: 'Mecánica automotriz diesel', price: '$200.000', image: 'assets/demo/images/Catalog/image 1.png'},
+    { title: 'Mecánica automotriz ford', price: '$198.000', image: 'assets/demo/images/Catalog/image 2.png' },
+    { title: 'Mecánica automotriz transmisiones', price: '$500.000', image: 'assets/demo/images/Catalog/image 3.png' },
+    { title: 'Mecánica de motos', price: '$80.000', image: 'assets/demo/images/Catalog/image 4.png' },
+    { title: 'Mecánica eléctrica', price: '$150.900', image: 'assets/demo/images/Catalog/image 5.png' },
+    { title: 'Latonería y pintura', price: '$600.000', image: 'assets/demo/images/Catalog/image 6.png' }
+  ];
 
-  public currentPage: number = 1;
-  public totalPages: number = 0;
-  public maxPagesToShow: number = 5;
-  public pages: number[] = [];
-  public storageUrl: string = environment.storage;
-  public search: string = '';
+  totalRecords = this.catalogItems.length;
 
-  public services: Service[] = [];
-
-  constructor(
-    private serviceBusiness: ServicesBusiness
-  ) { }
-
-  ngOnInit(): void {
-    this.getServices();
-  }
-
-  getServices(page: number = 1) {
-
-    let params: any = {
-      'search': this.search || '',
-      'page': page,
-    };
-
-    this.serviceBusiness.getServices(params).then((services: any) => {
-      this.services = services.data;
-      this.currentPage = services.current_page;
-      this.totalPages = services.last_page;
-      this.updatePages();
-    }).catch(error => {
-
-    });
-  }
-
-  onPageChange(page: number) {
-    if (page !== this.currentPage && page > 0 && page <= this.totalPages) {
-      this.getServices(page);
-    }
-  }
-
-  updatePages() {
-    const half = Math.floor(this.maxPagesToShow / 2);
-    let start = Math.max(1, this.currentPage - half);
-    let end = Math.min(this.totalPages, start + this.maxPagesToShow - 1);
-
-    if (end - start < this.maxPagesToShow) {
-      start = Math.max(1, end - this.maxPagesToShow + 1);
-    }
-
-    this.pages = [];
-    for (let i = start; i <= end; i++) {
-      this.pages.push(i);
-    }
-  }
-
-  onSearchChange() {
-    this.getServices();
+  // Define el método loadItems para manejar la paginación
+  loadItems(event: any) {
+    console.log('Página cambiada:', event.page);
   }
 }

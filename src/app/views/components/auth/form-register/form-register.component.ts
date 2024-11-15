@@ -36,12 +36,12 @@ export class FormRegisterComponent implements OnInit {
     private userService: UserService
   ) { 
     this.userForm = this.fb.group({
-      identification_type_id: ['', Validators.required],
+      document_type_id: ['', Validators.required],
       document: ['', [Validators.required]],
-      first_name: ['', Validators.required],
-      middle_last_name: [''],
-      last_name: ['', Validators.required],
-      middle_first_name: [''],
+      firstname: ['', Validators.required],
+      middlelastname: [''],
+      lastname: ['', Validators.required],
+      middlefirstname: [''],
       country: ['', Validators.required],
       region: ['', Validators.required],
       municipality_id: ['', Validators.required],

@@ -123,7 +123,7 @@ export class AppConfigComponent implements OnInit {
     }
 
     getRolesByUserId(){
-        this.userRoleService.getRolesByUserId(this.user.id!)
+        this.userRoleService.getRolesByUserId(this.user.id ?? 1)
         .then(x => {
             this.roles = x;
         }).catch(x => {

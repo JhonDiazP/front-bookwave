@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
     form = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
+        username: ['', [Validators.required]],
         password: ['', Validators.required]
     });
 
@@ -59,11 +59,12 @@ export class LoginComponent implements OnInit {
 
     login(){
         if(!this.form.invalid){
-            this.authService.Login(this.form.value.email, this.form.value.password).then(x => {
+            this.authService.Login(this.form.value.username, this.form.value.password).then(x => {
                 this.authService.GetUserById(x.data.user_id).then(async user =>{
-                    this.authService.SaveUser(user.user);
-                    await this.itemRolePermission.GetCollection(user.user.roles[0].id);
-                    this.router.navigate(['pages/products/catalog']);
+                    console.log(user);
+                    this.authService.SaveUser(user);
+                    // await this.itemRolePermission.GetCollection(user.user.roles[0].id);
+                    this.router.navigate(['pages/products/categories']);
                     this.messageService.add({ key: 'tst', severity: 'success', summary: 'Iniciando sesión.'});
                 });
             }).catch(x => {
@@ -75,13 +76,9 @@ export class LoginComponent implements OnInit {
     }
 
     loginGoogle(){
-        this.authService.Login("jhonever2017@hotmail.com", "Soporte2023+").then(x => {  
-            this.authService.GetUserById(x.data.user_id).then(async user =>{
-                this.authService.SaveUser(user.user);
-                await this.itemRolePermission.GetCollection(user.user.roles[0].id);
-                this.router.navigate(['pages/products/catalog']);
-                this.messageService.add({ key: 'tst', severity: 'success', summary: 'Iniciando sesión.'});
-            });
+        console.log('login google');
+        this.authService.LoginGoogle().then(x => {
+            console.log(x);
         }).catch(x => {
 
         })

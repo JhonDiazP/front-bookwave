@@ -20,9 +20,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CheckPermsDirective } from 'src/app/directives/check-perms.directive';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
-import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [ListUsersComponent, FormUsersComponent, CheckPermsDirective],
@@ -43,11 +40,8 @@ import { MessageService } from 'primeng/api';
     DividerModule,
     InputNumberModule,
     FileUploadModule,
-    MultiSelectModule,
-    TableModule,
-    TooltipModule
+    MultiSelectModule
   ],
-  exports: [ CheckPermsDirective ],
-  providers: [ MessageService ]
+  exports: [ CheckPermsDirective ]
 })
 export class UsersModule { }

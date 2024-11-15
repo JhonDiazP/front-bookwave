@@ -1,11 +1,11 @@
 <form [formGroup]="userForm">
     <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4 mb-3">
         <div>
-            <label for="identification_type_id" class="block mb-2">Tipo de Documento:<span class="text-red-700">*</span></label>
-            <p-dropdown id="identification_type_id" styleClass="w-full" [options]="documentTypes" formControlName="identification_type_id" optionValue="id" optionLabel="name"
+            <label for="document_type_id" class="block mb-2">Tipo de Documento:<span class="text-red-700">*</span></label>
+            <p-dropdown id="document_type_id" styleClass="w-full" [options]="documentTypes" formControlName="document_type_id" optionValue="id" optionLabel="name"
                 placeholder="Seleccione un tipo de documento"></p-dropdown>
             <div class="ml-2">
-                <div *ngIf="userForm.get('identification_type_id')?.errors">
+                <div *ngIf="userForm.get('document_type_id')?.errors">
                     <small class="text-red-700">
                         El campo es requerido
                     </small>
@@ -28,11 +28,11 @@
     <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Primer Nombre -->
         <div class="p-field mb-4">
-            <label for="first_name" class="block mb-2">Primer Nombre:<span class="text-red-700">*</span></label>
-            <input pInputText id="first_name" formControlName="first_name" placeholder="Primer Nombre"
+            <label for="firstname" class="block mb-2">Primer Nombre:<span class="text-red-700">*</span></label>
+            <input pInputText id="firstname" formControlName="firstname" placeholder="Primer Nombre"
                 class="w-full" />
             <div class="ml-2">
-                <div *ngIf="userForm.get('first_name')?.errors">
+                <div *ngIf="userForm.get('firstname')?.errors">
                     <small class="text-red-700">
                         El campo es requerido
                     </small>
@@ -42,8 +42,8 @@
 
         <!-- Segundo Nombre -->
         <div class="p-field mb-4">
-            <label for="middle_last_name" class="block mb-2">Segundo Nombre:</label>
-            <input pInputText id="middle_last_name" formControlName="middle_last_name" placeholder="Segundo Nombre"
+            <label for="middlelastname" class="block mb-2">Segundo Nombre:</label>
+            <input pInputText id="middlelastname" formControlName="middlelastname" placeholder="Segundo Nombre"
                 class="w-full" />
         </div>
     </div>
@@ -51,11 +51,11 @@
     <div class="grid-tw sm:grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Primer Apellido -->
         <div class="p-field mb-4">
-            <label for="last_name" class="block mb-2">Primer Apellido:<span class="text-red-700">*</span></label>
-            <input pInputText id="last_name" formControlName="last_name" placeholder="Primer Apellido"
+            <label for="lastname" class="block mb-2">Primer Apellido:<span class="text-red-700">*</span></label>
+            <input pInputText id="lastname" formControlName="lastname" placeholder="Primer Apellido"
                 class="w-full" />
             <div class="ml-2">
-                <div *ngIf="userForm.get('last_name')?.errors">
+                <div *ngIf="userForm.get('lastname')?.errors">
                     <small class="text-red-700">
                         El campo es requerido
                     </small>
@@ -65,8 +65,8 @@
 
         <!-- Segundo Apellido -->
         <div class="p-field mb-4">
-            <label for="middle_first_name" class="block mb-2">Segundo Apellido:</label>
-            <input pInputText id="middle_first_name" formControlName="middle_first_name" placeholder="Segundo Apellido"
+            <label for="middlefirstname" class="block mb-2">Segundo Apellido:</label>
+            <input pInputText id="middlefirstname" formControlName="middlefirstname" placeholder="Segundo Apellido"
                 class="w-full" />
         </div>
     </div>

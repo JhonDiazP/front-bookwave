@@ -9,8 +9,8 @@
         <form [formGroup]="form">
           <!-- Correo Electrónico -->
           <div class="mb-4">
-            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo electrónico</label>
-            <input id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="email" type="email" placeholder="Ejemplo@ejemplo.com">
+            <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Nombre de usuario</label>
+            <input id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" formControlName="username" type="text" placeholder="Ejemplo@ejemplo.com">
           </div>
   
           <!-- Contraseña -->
@@ -28,18 +28,6 @@
         <button (click)="login()" pButton pRipple label="Iniciar sesión"
             class="w-full p-3 bg-blue-800 text-white rounded hover:bg-blue-900 text-xl" type="submit">
         </button>
-  
-          <!-- Botón Google -->
-          <button (click)="loginGoogle()" class="w-full flex items-center justify-center mt-4 bg-white border rounded shadow-sm hover:bg-gray-100 py-2">
-            <img src="https://img.icons8.com/color/24/000000/google-logo.png" alt="Auth Google" class="mr-2">
-            Inicia con Google
-          </button>
-  
-          <!-- Botón Facebook -->
-          <button class="w-full flex items-center justify-center mt-4 bg-white border rounded shadow-sm hover:bg-gray-100 py-2">
-            <img src="https://img.icons8.com/color/24/000000/facebook-new.png" alt="Auth Facebook" class="mr-2">
-            Inicia con Facebook
-          </button>
   
           <div class="mt-6 flex justify-center">
             

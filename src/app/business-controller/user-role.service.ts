@@ -24,7 +24,7 @@ export class UserRoleService {
         })
     }
 
-    getRolesByUserId(id: string): Promise<Role[]> {
+    getRolesByUserId(id: number): Promise<Role[]> {
         let servObj = new ServiceObject("roles-by-user-id", id);
         return this.apiService.GetAction(servObj)
         .then(x => {

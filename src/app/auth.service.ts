@@ -24,13 +24,12 @@ export class AuthService {
   constructor(private apiService: ApiService) { }
 
 
-  Login(email: any, password: any):Promise<ServiceObject> {
-    var servObj = new ServiceObject("login");
-    servObj.data = {email: email, password: password};
+  Login(username: any, password: any):Promise<ServiceObject> {
+    var servObj = new ServiceObject("auth/login");
+    servObj.data = {username: username, password: password};
     return this.apiService.Login(servObj)
       .then(x => {
         servObj = <ServiceObject>x;
-        console.log(servObj);
         this.SaveToken(servObj.data);
         return Promise.resolve(servObj);
       })
@@ -40,7 +39,6 @@ export class AuthService {
     }
 
   LoginGoogle():Promise<ServiceObject> {
-    console.log("entra");
     var servObj = new ServiceObject("google-auth/redirect");
     return this.apiService.Login(servObj)
       .then(x => {
@@ -54,7 +52,7 @@ export class AuthService {
     }
 
     GetUserById(id:string): Promise<any> {
-      var servObj = new ServiceObject('user', id);
+      var servObj = new ServiceObject('users', id);
         return this.apiService.GetAction(servObj)
           .then(x => {
             servObj = <ServiceObject>x;
@@ -134,8 +132,10 @@ export class AuthService {
 
   SaveUser(user: any): void {
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('role_id', user.roles[0].id);
+    // localStorage.setItem('role_id', user.roles[0].id);
   }
+
+
 
 
 }

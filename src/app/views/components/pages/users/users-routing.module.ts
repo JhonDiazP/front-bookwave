@@ -6,7 +6,6 @@ import { FormUsersComponent } from './form-users/form-users.component';
 const routes: Routes = [
   {path: 'list-user', component: ListUsersComponent},
   {path: 'form-user', component: FormUsersComponent},
-  {path: 'form-user/:id', component: FormUsersComponent},
 ];
 
 @NgModule({
